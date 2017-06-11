@@ -1,4 +1,5 @@
 var selectedMonths = [];
+var yearRange = [1980, 2014];
 
 function monthDeselect() {
     d3.selectAll(".selected").attr("class", "month bordered");
@@ -54,7 +55,7 @@ const margin = { top: 50, right: 0, bottom: 100, left: 50 },
       months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       
     var years = [];
-    for(i=1980; i<=2014; i++)
+    for(i=yearRange[0]; i<=yearRange[1]; i++)
         years.push(i.toString());
 
     const svg = d3.select(".calendar")
@@ -101,9 +102,11 @@ const margin = { top: 50, right: 0, bottom: 100, left: 50 },
       
       var tooltip = d3.select("#tooltip");
 
-      cards.enter().append("rect")
+      cards.enter().append("rect").filter(function(d) {
+          return (d.year >= yearRange[0] && d.year <= yearRange[1]);
+      })
           .attr("x", (d) => (d.month - 1) * gridSize)
-          .attr("y", (d) => (d.year - 1980) * gridSize/2)
+          .attr("y", (d) => (d.year - yearRange[0]) * gridSize/2)
           .attr("rx", 4)
           .attr("ry", 4)
           .attr("class", "month bordered")
@@ -148,7 +151,7 @@ const margin = { top: 50, right: 0, bottom: 100, left: 50 },
 
       legend_g.append("rect")
         .attr("x", (d, i) => legendElementWidth * i)
-        .attr("y", height)
+        .attr("y", (d) => (yearRange[1] - yearRange[0] + 2) * gridSize/2)
         .attr("width", legendElementWidth)
         .attr("height", gridSize / 2)
         .style("fill", (d, i) => colors[i]);
@@ -157,7 +160,7 @@ const margin = { top: 50, right: 0, bottom: 100, left: 50 },
         .attr("class", "mono")
         .text((d) => "≥ " + Math.round(d))
         .attr("x", (d, i) => legendElementWidth * i)
-        .attr("y", height + gridSize);
+        .attr("y", (d) => (yearRange[1] - yearRange[0] + 2) * gridSize/2 + gridSize)
 
       legend.exit().remove();
     });
