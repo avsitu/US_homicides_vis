@@ -4,6 +4,8 @@ var yearRange = [1980, 2014];
 function monthDeselect() {
     d3.selectAll(".selected").attr("class", "month bordered");
     selectedMonths = [];
+    setTimeFilter(selectedMonths);
+    updateChords();
 }
 
 function monthSelect(e, data) {
@@ -18,7 +20,7 @@ function monthSelect(e, data) {
                     d.year < startY)
                 && ((d.month >= data.month && d.year == data.year) ||
                     d.year > data.year)){
-                    selectedMonths.push({month: d.month, year: d.year});
+                    selectedMonths.push({month: d.month, year: d.year,key: data.month + " " + data.year});
                     return true;
                 }
             }
@@ -27,7 +29,7 @@ function monthSelect(e, data) {
                     d.year > startY)
                 && ((d.month <= data.month && d.year == data.year) || 
                     d.year < data.year)){
-                    selectedMonths.push({month: d.month, year: d.year});
+                    selectedMonths.push({month: d.month, year: d.year,key: data.month + " " + data.year});
                     return true;
                 }
             }
@@ -39,9 +41,11 @@ function monthSelect(e, data) {
         d3.select(e.target).attr("class", "month bordered selected");
         //creates date object with month and year properties from selection
         //access using 'selectedMonths[i].month' and 'selectedMonths[i].year'
-        selectedMonths.push({month: data.month, year: data.year});
+        selectedMonths.push({month: data.month, year: data.year, key: data.month + " " + data.year});
     }
-    console.log(selectedMonths);
+    setTimeFilter(selectedMonths);
+    updateChords();
+    //console.log(selectedMonths);
 }
 
 function makeCalendar() {

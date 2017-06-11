@@ -6,6 +6,8 @@ var raceKey = {"Asian/Pacific Islander": 0, "Black": 1, "Native American/Alaska 
 var races = ["Asian/Pacific Islander", "Black", "Native American/Alaska Native", "Unknown" , "White"];
 var ageKey = {"1-20": 0, "21-30": 1, "31-40": 2, "41-50": 3, "51-60": 4, "61+": 5, "Unknown": 6};
 var ages = ["1-20", "21-30", "31-40", "41-50", "51-60", "61+", "Unknown"];
+var monthKey = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 
 
 
@@ -21,6 +23,8 @@ var ageData = [];
 resetData();
 
 function resetData(){
+  raceData = [];
+  ageData = [];
 	for(var i = 0; i < 5; i++){
 	  raceData[i] = [];
 	  for(var j = 0; j< 5; j++){
@@ -79,13 +83,13 @@ function updateChords(){
     if (error) throw error;
     raceSvg.selectAll("*").remove();
     ageSvg.selectAll("*").remove();
-    printData();
+    //printData();
     createRaceChord();
     createAgeChord();
   });
 
   function row(d){
-    var time = d.Year + " " + d.Month;
+    var time = monthKey.indexOf(d.Month)+1 + " " + d.Year;
     if(stateFilter.length <= 0 || stateFilter.indexOf(d.State) != -1){
       if(timeFilter.length <= 0 || timeFilter.indexOf(time) != -1){
             //for race
@@ -358,6 +362,13 @@ function removeState(s){
 
 function addTime(t){
   timeFilter.push(t);
+}
+
+function setTimeFilter(x){
+  timeFilter = [];
+  for (var i = 0; i < x.length; i++){
+    timeFilter.push(x[i].key);
+  }
 }
 
 function removeTime(t){

@@ -6,12 +6,29 @@
 <link rel="stylesheet" type="text/css" href="styles/calendar.css">
 <title>Calendar</title>
 </head>
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.group-tick line {
+  stroke: #000;
+}
+
+.ribbons {
+  fill-opacity: 0.67;
+}
+
+</style>
+
 
 <body onclick="monthDeselect()">
 <svg class="calendar"></svg>
 <div id="tooltip"></div>
 
 <script src="scripts/d3.v4.min.js"></script>
+<script src="./scripts/chord.js"></script>
 <script src="scripts/calendar.js"></script>
 </body>
 </html>
