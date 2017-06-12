@@ -1,5 +1,5 @@
-var width = 960;
-var height = 500;
+var mapwidth = 960;
+var mapheight = 500;
 
 var selectedStates = new Set()
 
@@ -26,7 +26,7 @@ function stateSelect(e, d) {
         d3.select(e.target).attr("class", "state bordered");
     }else{
         selectedStates.add(d.properties.name)
-        //svg.select("g#"+d.properties.id)
+        //mapsvg.select("g#"+d.properties.id)
         //    .attr("fill", "#FFFFFF")
     }
     
@@ -39,21 +39,21 @@ function stateSelect(e, d) {
 
 // D3 Projection
 var projection = d3.geoAlbersUsa()
-				   .translate([width/2, height/2])    // translate to center of screen
+				   .translate([mapwidth/2, mapheight/2])    // translate to center of screen
 				   .scale([1000]);          // scale things down so see entire US
         
 // Define path generator
-var path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
+var mappath = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
 		  	 .projection(projection);  // tell path generator to use albersUsa projection
 
 var lowColor = '#ffe5e5'
 var highColor = '#7f0000'
 		
 //Create SVG element and append map to the SVG
-var svg = d3.select(".map")
+var mapsvg = d3.select(".map")
 			.append("svg")
-			.attr("width", width)
-			.attr("height", height);
+			.attr("width", mapwidth)
+			.attr("height", mapheight);
         
 // Select tooltip from DOM
 var tooltip = d3.select("#tooltip");
@@ -141,11 +141,11 @@ for (var i = 0; i < data.length; i++) {
 			.call(yAxis)
  // Bind the data to the SVG and create one path per GeoJSON feature
 //console.log("BEFORE CLICK CODE")
-svg.selectAll("path")
+mapsvg.selectAll("path")
 	.data(json.features)
 	.enter()
 	.append("path")
-	.attr("d", path)
+	.attr("d", mappath)
 	.style("stroke", "#fff")
 	.style("stroke-width", "1.5")
 	.style("fill", function(d) {return ramp(d.properties.incidents) })
