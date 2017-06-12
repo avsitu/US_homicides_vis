@@ -1,12 +1,12 @@
 //Adapted from https://bl.ocks.org/mbostock/4062006, Mike Bostock
 
-console.log('Hello from chord.js :)');
+//console.log('Hello from chord.js :)');
 
 var raceKey = {"Asian/Pacific Islander": 0, "Black": 1, "Native American/Alaska Native": 2, "Unknown" : 3, "White" : 4};
 var races = ["Asian/Pacific Islander", "Black", "Native American/Alaska Native", "Unknown" , "White"];
 var ageKey = {"1-20": 0, "21-30": 1, "31-40": 2, "41-50": 3, "51-60": 4, "61+": 5, "Unknown": 6};
 var ages = ["1-20", "21-30", "31-40", "41-50", "51-60", "61+", "Unknown"];
-var monthKey = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var monthKey = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 
 
@@ -369,6 +369,7 @@ function setTimeFilter(x){
   for (var i = 0; i < x.length; i++){
     timeFilter.push(x[i].key);
   }
+  //console.log(timeFilter);
 }
 
 function removeTime(t){
