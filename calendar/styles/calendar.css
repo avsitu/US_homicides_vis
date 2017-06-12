@@ -60,6 +60,14 @@ text.mono {
   opacity: 0;
   pointer-events: none;
   position: absolute;
-  width: 110px;
+  padding: 10px;
   text-align: center;
+}
+
+.group-tick line {
+  stroke: #000;
+}
+
+.ribbons {
+  fill-opacity: 0.67;
 }
