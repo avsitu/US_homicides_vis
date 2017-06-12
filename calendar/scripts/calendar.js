@@ -20,7 +20,7 @@ function monthSelect(e, data) {
                     d.year < startY)
                 && ((d.month >= data.month && d.year == data.year) ||
                     d.year > data.year)){
-                    selectedMonths.push({month: d.month, year: d.year,key: data.month + " " + data.year});
+                    selectedMonths.push({month: d.month, year: d.year,key: d.month + " " + d.year});
                     return true;
                 }
             }
@@ -29,7 +29,7 @@ function monthSelect(e, data) {
                     d.year > startY)
                 && ((d.month <= data.month && d.year == data.year) || 
                     d.year < data.year)){
-                    selectedMonths.push({month: d.month, year: d.year,key: data.month + " " + data.year});
+                    selectedMonths.push({month: d.month, year: d.year,key: d.month + " " + d.year});
                     return true;
                 }
             }

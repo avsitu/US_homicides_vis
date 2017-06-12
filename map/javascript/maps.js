@@ -138,6 +138,8 @@ svg.selectAll("path")
 	      		.attr("fill", "#FFFFFF")
 	      }
 	      console.log(selectedStates)
+	      selectedStates.forEach(v => stateFilter.push(v))
+	      updateChords()
 	      d3.event.stopPropagation();
     })
 	.on("mouseover", function(d) {

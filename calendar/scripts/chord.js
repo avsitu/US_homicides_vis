@@ -1,12 +1,12 @@
 //Adapted from https://bl.ocks.org/mbostock/4062006, Mike Bostock
 
-console.log('Hello from chord.js :)');
+//console.log('Hello from chord.js :)');
 
 var raceKey = {"Asian/Pacific Islander": 0, "Black": 1, "Native American/Alaska Native": 2, "Unknown" : 3, "White" : 4};
 var races = ["Asian/Pacific Islander", "Black", "Native American/Alaska Native", "Unknown" , "White"];
 var ageKey = {"1-20": 0, "21-30": 1, "31-40": 2, "41-50": 3, "51-60": 4, "61+": 5, "Unknown": 6};
 var ages = ["1-20", "21-30", "31-40", "41-50", "51-60", "61+", "Unknown"];
-var monthKey = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var monthKey = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 
 
@@ -50,8 +50,6 @@ var height2 = 500;
 var outerRadius = Math.min(width2, height2) * 0.5 - 40;
 var innerRadius = outerRadius - 30;
 
-var tipStr = "";
-
 var raceSvg = d3.select("body").append("svg")
     .attr("width", width2 )
     .attr("height", height2 );
@@ -60,12 +58,7 @@ var ageSvg = d3.select("body").append("svg")
     .attr("width", width2 )
     .attr("height", height2 );
 
-var tooltip = d3.select("body")
-    .append("div")
-    .style("position", "absolute")
-    .style("z-index", "10")
-    .style("visibility", "hidden")
-    .text("a simple tooltip");
+var tooltip = d3.select("#tooltip");
 
 
 var formatValue = d3.formatPrefix(",.0", 1e3);
@@ -135,7 +128,7 @@ function updateChords(){
 }
 
 
-
+/*
 function printData(){
   console.log("Race Data");
   for(var i = 0; i < 5; i++){
@@ -150,7 +143,7 @@ function printData(){
        + "\t"  + ageData[i][4] + "\t" + ageData[i][5] + "\t" + ageData[i][6]);
   }
 }
-
+*/
 
 function createRaceChord(){
     var chord = d3.chord()
@@ -207,14 +200,20 @@ function createRaceChord(){
     .style("stroke", function(d) { return d3.rgb(color_race(d.target.index)).darker(); })
     .on("mouseover", function(d) 
         {
-          tipStr = races[d.source.index] + " -> "  + races[d.target.index] + ": " + d.source.value + 
-          "\n" + races[d.target.index] + " -> "  + races[d.source.index] + ": " + d.target.value;
-          return tooltip.style("visibility", "visible")
-          .text(tipStr); 
+          var tipStr = races[d.source.index] + " -> "  + races[d.target.index] + ": " + d.source.value + 
+          "<br>" + races[d.target.index] + " -> "  + races[d.source.index] + ": " + d.target.value;
+          tooltip.transition()
+              .duration(200)		
+              .style('opacity', .95);
+          tooltip.html(tipStr); 
         })
-    .on("mousemove", function(){return tooltip.style("top",
+    .on("mousemove", function(){tooltip.style("top",
     (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
-    .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+    .on("mouseout", function(){
+        tooltip.transition()		
+            .duration(400)		
+            .style('opacity', 0);
+    });
 
 
 
@@ -307,14 +306,20 @@ function createAgeChord(){
       .style("stroke", function(d) { return d3.rgb(color_age(d.target.index)).darker(); })
       .on("mouseover", function(d) 
         {
-          tipStr = ages[d.source.index] + " -> "  + ages[d.target.index] + ": " + d.source.value + 
-          "\n" + ages[d.target.index] + " -> "  + ages[d.source.index] + ": " + d.target.value;
-          return tooltip.style("visibility", "visible")
-          .text(tipStr); 
+          var tipStr = ages[d.source.index] + " -> "  + ages[d.target.index] + ": " + d.source.value + 
+          "<br>" + ages[d.target.index] + " -> "  + ages[d.source.index] + ": " + d.target.value;
+          tooltip.transition()
+              .duration(200)		
+              .style('opacity', .95);
+          tooltip.html(tipStr); 
         })
-    .on("mousemove", function(){return tooltip.style("top",
+    .on("mousemove", function(){tooltip.style("top",
     (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
-    .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+    .on("mouseout", function(){
+        tooltip.transition()		
+            .duration(400)		
+            .style('opacity', 0);
+    });
 
 
     var legend2 = g2.append("g")
@@ -369,6 +374,7 @@ function setTimeFilter(x){
   for (var i = 0; i < x.length; i++){
     timeFilter.push(x[i].key);
   }
+  //console.log(timeFilter);
 }
 
 function removeTime(t){
