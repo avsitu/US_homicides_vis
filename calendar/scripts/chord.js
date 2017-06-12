@@ -18,13 +18,18 @@ var timeFilter = [];
 
 
 var raceData = [];
-
 var ageData = [];
+var raceDataMax = 0;
+var ageDataMax = 0;
+
 resetData();
 
 function resetData(){
   raceData = [];
   ageData = [];
+  raceDataMax = 0;
+  ageDataMax = 0;
+  
 	for(var i = 0; i < 5; i++){
 	  raceData[i] = [];
 	  for(var j = 0; j< 5; j++){
@@ -60,9 +65,6 @@ var ageSvg = d3.select("body").append("svg")
 
 var tooltip = d3.select("#tooltip");
 
-
-var formatValue = d3.formatPrefix(",.0", 1e3);
-
 var color_race = d3.scaleOrdinal(["Blue", "Orange", "Green", "Red", "Purple"]);
 
 var color_age = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "Black"]);
@@ -72,10 +74,38 @@ updateChords();
 
 function updateChords(){
 	resetData();
-  d3.csv("data/chord_data.csv", row, function(error, data) {
+  d3.csv("data/chord_data.csv", function(error, data) {
     if (error) throw error;
     raceSvg.selectAll("*").remove();
     ageSvg.selectAll("*").remove();
+    
+    data = data.filter(row);
+    
+    for(var i=0; i<5; i++) {
+        for(var j=0; j<5; j++)
+        if(raceData[i][j] > raceDataMax)
+            raceDataMax = raceData[i][j];
+    }
+    for(var i=0; i<7; i++) {
+        for(var j=0; j<7; j++)
+        if(ageData[i][j] > ageDataMax)
+            ageDataMax = ageData[i][j];
+    }
+    
+    function closest(num){
+        var limits = [50, 100, 500, 1000, 5000, 10000];
+        var curInterval = 50;
+        for(var i=1; i<6; i++){
+            if(Math.abs(num - limits[i]) < Math.abs(num - curInterval))
+                curInterval = limits[i];
+            else
+                break;
+        }
+        return curInterval;
+    }
+    raceDataMax = closest(raceDataMax/20);
+    ageDataMax = closest(ageDataMax/10);
+    
     //printData();
     createRaceChord();
     createAgeChord();
@@ -91,39 +121,42 @@ function updateChords(){
         var v, p;
         //for age
         if(d.Victim_Age >= 1 && d.Victim_Age <= 20){
-          v =  "1-20";
+          v = 0; //"1-20";
         }else if(d.Victim_Age >= 21 && d.Victim_Age <= 30){
-          v = "21-30";
+          v = 1; //"21-30";
         }else if(d.Victim_Age >= 31 && d.Victim_Age <= 40){
-          v = "31-40";
+          v = 2; //"31-40";
         }else if(d.Victim_Age >= 41 && d.Victim_Age <= 50){
-          v = "41-50";
+          v = 3; //"41-50";
         }else if(d.Victim_Age >= 51 && d.Victim_Age <= 60){
-          v = "51-60";
+          v = 4; //"51-60";
         }else if(d.Victim_Age >= 61){
-          v = "61+";
+          v = 5; //"61+";
         }else {
-          v = "Unknown";
+          v = 6; //"Unknown";
         }
         if(d.Perpetrator_Age >= 1 && d.Perpetrator_Age <= 20){
-          p =  "1-20";
+          p = 0; //"1-20";
         }else if(d.Perpetrator_Age >= 21 && d.Perpetrator_Age <= 30){
-          p = "21-30";
+          p = 1; //"21-30";
         }else if(d.Perpetrator_Age >= 31 && d.Perpetrator_Age <= 40){
-          p = "31-40";
+          p = 2; //"31-40";
         }else if(d.Perpetrator_Age >= 41 && d.Perpetrator_Age <= 50){
-          p = "41-50";
+          p = 3; //"41-50";
         }else if(d.Perpetrator_Age >= 51 && d.Perpetrator_Age <= 60){
-          p = "51-60";
+          p = 4; //"51-60";
         }else if(d.Perpetrator_Age >= 61){
-          p = "61+";
+          p = 5; //"61+";
         }else {
-          p = "Unknown";
+          p = 6; //"Unknown";
         }
        
-        ageData[ageKey[v]][ageKey[p]] += 1;
+        //ageData[ageKey[v]][ageKey[p]] += 1;
+        ageData[v][p] += 1;
+        return true;
       }
     }
+    return false;
   }
 }
 
@@ -173,7 +206,7 @@ function createRaceChord(){
       .attr("d", arc);
 
   var groupTick = group.selectAll(".group-tick")
-    .data(function(d) { return groupTicks(d, 5e3); })
+    .data(function(d) { return groupTicks(d, raceDataMax/2); })
     .enter().append("g")
       .attr("class", "group-tick")
       .attr("transform", function(d) { return "rotate(" + (d.angle * 180 / Math.PI - 90) + ") translate(" + outerRadius + ",0)"; });
@@ -181,8 +214,10 @@ function createRaceChord(){
   groupTick.append("line")
       .attr("x2", 6);
 
+  var formatValue = d3.formatPrefix(".0", raceDataMax/5); 
+      
   groupTick
-    .filter(function(d) { return d.value % 10e3 === 0; })
+    .filter(function(d) { return d.value % raceDataMax === 0; })
     .append("text")
       .attr("x", 8)
       .attr("dy", ".35em")
@@ -279,16 +314,18 @@ function createAgeChord(){
       .attr("d", arc);
 
   var groupTick = group.selectAll(".group-tick")
-    .data(function(d) { return groupTicks(d, 5e3); })
+    .data(function(d) { return groupTicks(d, ageDataMax/2); })
     .enter().append("g")
       .attr("class", "group-tick")
       .attr("transform", function(d) { return "rotate(" + (d.angle * 180 / Math.PI - 90) + ") translate(" + outerRadius + ",0)"; });
 
   groupTick.append("line")
       .attr("x2", 6);
+      
+  var formatValue = d3.formatPrefix(".0", ageDataMax/5); 
 
   groupTick
-    .filter(function(d) { return d.value % 10e3 === 0; })
+    .filter(function(d) { return d.value % ageDataMax === 0; })
     .append("text")
       .attr("x", 8)
       .attr("dy", ".35em")

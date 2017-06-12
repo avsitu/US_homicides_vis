@@ -1,18 +1,22 @@
 var selectedMonths = [];
 var yearRange = [1980, 2014];
 
-function monthDeselect() {
-    d3.selectAll(".selected").attr("class", "month bordered");
-    selectedMonths = [];
-    setTimeFilter(selectedMonths);
-    updateChords();
+function monthDeselect(update) {
+    if(selectedMonths.length > 0){
+        d3.selectAll(".selected").attr("class", "month bordered");
+        selectedMonths = [];
+        if(update){
+            setTimeFilter(selectedMonths);
+            updateChords();
+        }
+    }
 }
 
 function monthSelect(e, data) {
     if(selectedMonths.length > 0 && e.shiftKey) { //select range of months
         var startM = selectedMonths[0].month;
         var startY = selectedMonths[0].year;
-        monthDeselect();
+        monthDeselect(false);
         var s = d3.selectAll(".month").filter(function(d) { 
             if((data.month < startM && data.year == startY)
                 || data.year < startY) { //if selection goes backwards
@@ -123,11 +127,11 @@ const margin = { top: 50, right: 0, bottom: 100, left: 50 },
               .style('opacity', .95);
             tooltip.html(months[d.month-1] + ' ' + d.year + '<br>' + d.amount + ' incidents')
               .style('left', (d3.event.pageX - 55)+'px')	
-              .style('top', (d3.event.pageY - 50)+'px');
+              .style('top', (d3.event.pageY - 55)+'px');
           })
           .on('mousemove', () => {
             tooltip.style('left', (d3.event.pageX - 55)+'px')	
-              .style('top', (d3.event.pageY - 50)+'px');
+              .style('top', (d3.event.pageY - 55)+'px');
           })
           .on('mouseout', () => {		
             tooltip.transition()		
@@ -136,7 +140,7 @@ const margin = { top: 50, right: 0, bottom: 100, left: 50 },
           })
           .on('click', (d) => {
               if(!d3.event.ctrlKey && !d3.event.shiftKey)
-                monthDeselect(); //deselect previous
+                monthDeselect(false); //deselect previous
               monthSelect(d3.event, d); //select new
               d3.event.stopPropagation();
           })
