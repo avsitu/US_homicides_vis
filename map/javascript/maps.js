@@ -26,10 +26,11 @@ function stateSelect(e, d) {
         d3.select(e.target).attr("class", "state bordered");
     }else{
         selectedStates.add(d.properties.name)
+
         //svg.select("g#"+d.properties.id)
         //    .attr("fill", "#FFFFFF")
     }
-    
+    console.log(selectedStates)
     //console.log(selectedStates)
     stateFilter = [];
     selectedStates.forEach(v => stateFilter.push(v))
