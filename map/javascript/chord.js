@@ -93,9 +93,9 @@ function updateChords(){
     }
     
     function closest(num){
-        var limits = [50, 100, 500, 1000, 5000, 10000];
+        var limits = [50, 100, 500, 1000, 2500, 5000, 10000];
         var curInterval = 50;
-        for(var i=1; i<6; i++){
+        for(var i=1; i<7; i++){
             if(Math.abs(num - limits[i]) < Math.abs(num - curInterval))
                 curInterval = limits[i];
             else
@@ -103,8 +103,8 @@ function updateChords(){
         }
         return curInterval;
     }
-    raceDataMax = closest(raceDataMax/20);
-    ageDataMax = closest(ageDataMax/10);
+    raceDataMax = closest(raceDataMax/10);
+    ageDataMax = closest(ageDataMax/5);
     
     //printData();
     createRaceChord();

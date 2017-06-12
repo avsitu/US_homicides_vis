@@ -3,10 +3,39 @@ var height = 500;
 
 var selectedStates = new Set()
 
-function monthDeselect() {
-	d3.selectAll(".selected").attr("class", "state bordered");
-    selectedStates.clear();
+function stateDeselect(update) {
+    if(selectedStates.size > 0){
+        d3.selectAll(".selected").attr("class", "state bordered");
+        selectedStates.clear();
+        
+        if(update){
+            stateFilter = [];
+            updateChords();
+        }
+    }
 }
+
+function stateSelect(e, d) {
+    // highlight it 
+    d3.select(e.target).attr("class", "state bordered selected");
+    
+    if (selectedStates.has(d.properties.name)){
+        selectedStates.delete(d.properties.name)
+        
+        // unhighlight it
+        d3.select(e.target).attr("class", "state bordered");
+    }else{
+        selectedStates.add(d.properties.name)
+        //svg.select("g#"+d.properties.id)
+        //    .attr("fill", "#FFFFFF")
+    }
+    
+    //console.log(selectedStates)
+    stateFilter = [];
+    selectedStates.forEach(v => stateFilter.push(v))
+    updateChords()
+}
+
 
 // D3 Projection
 var projection = d3.geoAlbersUsa()
@@ -123,20 +152,9 @@ svg.selectAll("path")
 
 	.on('click', (d) => {
 	      if(!d3.event.ctrlKey && !d3.event.shiftKey){
-	      		monthDeselect(); //deselect previous
+	      		stateDeselect(false); //deselect previous
 	      }
-	      if (selectedStates.has(d.properties.name)){
-	      	selectedStates.delete(d.properties.name)
-	      	// highlight it 
-	      }else{
-	      	selectedStates.add(d.properties.name)
-	      	// unhighlight it
-	      	svg.select("g#"+d.properties.id)
-	      		.attr("fill", "#FFFFFF")
-	      }
-	      //console.log(selectedStates)
-	      selectedStates.forEach(v => stateFilter.push(v))
-	      updateChords()
+	      stateSelect(d3.event, d);
 	      d3.event.stopPropagation();
     })
 	.on("mouseover", function(d) {
