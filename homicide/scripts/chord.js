@@ -109,6 +109,7 @@ function updateChords(){
     //printData();
     createRaceChord();
     createAgeChord();
+    resetbuttons();
   });
 
   function row(d){

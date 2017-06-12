@@ -5,7 +5,7 @@ var selectedStates = new Set()
 
 function stateDeselect(update) {
     if(selectedStates.size > 0){
-        d3.selectAll(".selected").attr("class", "state bordered");
+        d3.selectAll(".state.selected").attr("class", "state bordered");
         selectedStates.clear();
         
         stateFilter = [];

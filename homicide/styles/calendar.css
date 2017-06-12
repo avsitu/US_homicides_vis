@@ -19,6 +19,17 @@ p {
     margin: 0px 10%;
 }
 
+#sidebar { 
+  width: 200px;
+  align-self: flex-end;
+  position: fixed;
+}
+
+button.sidebutton {
+    width: 200px;
+    padding: 10px;
+}
+
 footer {
     text-align: center;
 }

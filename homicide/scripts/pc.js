@@ -9,7 +9,7 @@ var pcy2 = {};
 var pcsvg2 = d3.select('.pc')
   .attr("width", pcw + pcm[1] + pcm[3])
   .attr("height", pch + pcm[0] + pcm[2]).append("g")
-  .attr("transform", "translate(" + 150 + "," + 50 + ")");
+  .attr("transform", "translate(" + 200 + "," + 50 + ")");
 
 var pcbackground = pcsvg2.append('g').attr('class', 'background')
   .attr('width', pcw)
@@ -25,6 +25,9 @@ var dimensions;
 
 if(stateFilter.length == 1 && timeFilter.length == 1){
 	updatePC();
+}
+else{
+    d3.select('.pc').style('display', 'none');
 }
 
 function pc(data) {
@@ -125,12 +128,7 @@ function pc(data) {
  	}
  	else {
  		for(var d=0; d < dimensions.length; d++) {
- 			if(labels[d] == 'Bedrooms') {
- 				// console.log(br_min+' '+br_max);
- 				d3.select('.axis'+d).transition().duration(1000).call(d3.axisRight(pcy2[dimensions[d]]));
- 			}
-			else
-				d3.select('.axis'+d).transition().duration(1000).call(d3.axisRight(pcy2[dimensions[d]]));
+ 			d3.select('.axis'+d).transition().duration(1000).call(d3.axisRight(pcy2[dimensions[d]]));
  		}
  	}
 
@@ -209,18 +207,17 @@ function updatePC() {
 			var time = monthKey.indexOf(d.month)+1 + " " + d.year;
 			if(stateFilter.length <= 0 || stateFilter.indexOf(d.state) != -1){
       			if(timeFilter.length <= 0 || timeFilter.indexOf(time) != -1){
-      				if(d.v_age < 100)
       				return true;
       			}
       		}
       		return false;
 		})
-		console.log(mydata.length);
+		//console.log(mydata.length);
 		if(mydata.length < 1000){
-			pcsvg2.style('opacity', 1);	
+			d3.select('.pc').style('display', 'block');	
 			pc(mydata);
 		}else{
-		pcsvg2.style('opacity', 0);	
+            d3.select('.pc').style('display', 'none');	
 		}
 		
 	}

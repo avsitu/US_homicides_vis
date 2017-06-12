@@ -9,39 +9,25 @@
 </head>
 
 <body>
+<div id="sidebar">
+<button class="sidebutton" id="deselectbutton" onclick="deselectAll()">Deselect</button>
+<br>
+<button class="sidebutton" id="updatebutton" onclick="updateAll()">Update</button>
+</div>
+<div class="map"></div>
+<svg class="calendar"></svg>
+<div class="chorddiv"></div>
+<svg class ="pc"></svg>
+<div id="tooltip"></div>
 
-<input class = "btn btn-primary btn"
-				   name="updateButton"
-				   type="button"
-				   value="Deselect"
-				   id="0"
-				   onclick="deselectAll();" />
+<footer>
+Source: <a href="https://www.kaggle.com/murderaccountability/homicide-reports">Kaggle Homicide Reports</a>
+</footer>
 
-
-<input class = "btn btn-primary btn"
-				   name="updateButton"
-				   type="button"
-				   value="updateData"
-				   id="1"
-				   onclick="console.log(stateFilter);
-				   			console.log(timeFilter);
-				   			updateChords();
-				   			updatePC();" />
-
-	<div class="map"></div>
-	<svg class="calendar"></svg>
-	<div class="chorddiv"></div>
-	<svg class ="pc"></svg>
-	<div id="tooltip"></div>
-	<footer>
-	Source: <a href="https://www.kaggle.com/murderaccountability/homicide-reports">Kaggle Homicide Reports</a>
-	</footer>
-
-	<script src="scripts/d3.v4.min.js"></script>
-	<script src="scripts/maps.js"></script>
-	<script src="scripts/calendar.js"></script>
-	<script src="scripts/chord.js"></script>
-	<script src="scripts/pc.js"></script>
-
+<script src="scripts/d3.v4.min.js"></script>
+<script src="scripts/maps.js"></script>
+<script src="scripts/calendar.js"></script>
+<script src="scripts/chord.js"></script>
+<script src="scripts/pc.js"></script>
 </body>
 </html>

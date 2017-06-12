@@ -1,15 +1,52 @@
 var selectedMonths = [];
 var yearRange = [1980, 2014];
+var disablebut = false;
+
+function updateAll() {
+    //console.log(stateFilter);
+    //console.log(timeFilter);
+    if(!disablebut){
+        disablebut = true;
+        var db = document.getElementById("deselectbutton");
+        db.disabled = true;
+        var ub = document.getElementById("updatebutton");
+        ub.textContent = "Updating...";
+        ub.disabled = true;
+        updateChords();
+        updatePC();
+    }
+}
+
+function resetbuttons(){
+    if(disablebut){
+        var db = document.getElementById("deselectbutton");
+        db.textContent = "Deselect";
+        db.disabled = false;
+        var ub = document.getElementById("updatebutton");
+        ub.textContent = "Update";
+        ub.disabled = false;
+        disablebut = false;
+    }
+}
 
 function deselectAll() {
-    pcsvg2.style('opacity', 0); 
-    monthDeselect(selectedStates.size <= 0); //only update if no states selected
-    stateDeselect(true); //always update
+    if(!disablebut){
+        disablebut = true;
+        var db = document.getElementById("deselectbutton");
+        db.textContent = "Deselecting...";
+        db.disabled = true;
+        var ub = document.getElementById("updatebutton");
+        ub.disabled = true;
+            
+        monthDeselect(selectedStates.size <= 0); //only update if no states selected
+        stateDeselect(true); //always update
+        d3.select('.pc').style('display', 'none');
+    }
 }
 
 function monthDeselect(update) {
     if(selectedMonths.length > 0){
-        d3.selectAll(".selected").attr("class", "month bordered");
+        d3.selectAll(".month.selected").attr("class", "month bordered");
         selectedMonths = [];
         
         timeFilter = [];
