@@ -30,7 +30,7 @@ function resetbuttons(){
 }
 
 function deselectAll() {
-    if(!disablebut){
+    if(!disablebut && (selectedMonths.length > 0 || selectedStates.size > 0)){
         disablebut = true;
         var db = document.getElementById("deselectbutton");
         db.textContent = "Deselecting...";
