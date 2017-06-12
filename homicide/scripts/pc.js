@@ -209,6 +209,7 @@ function updatePC() {
 			var time = monthKey.indexOf(d.month)+1 + " " + d.year;
 			if(stateFilter.length <= 0 || stateFilter.indexOf(d.state) != -1){
       			if(timeFilter.length <= 0 || timeFilter.indexOf(time) != -1){
+      				if(d.v_age < 100)
       				return true;
       			}
       		}
