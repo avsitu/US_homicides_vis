@@ -1,6 +1,6 @@
 var m = [100, 40, 50, 300],
-  w = 1500 - m[1] - m[3],
-  h = 600 - m[0] - m[2];
+  w = 1700 - m[1] - m[3],
+  h = 800 - m[0] - m[2];
 var line = d3.line();
 var dragging = {};
 var x2 = d3.scaleBand().range([0, w]);
@@ -9,7 +9,7 @@ var y2 = {};
 var svg2 = d3.select('.pc')
   .attr("width", w + m[1] + m[3])
   .attr("height", h + m[0] + m[2]).append("g")
-  .attr("transform", "translate(" + 20 + "," + 50 + ")");
+  .attr("transform", "translate(" + 150 + "," + 50 + ")");
 
 var background = svg2.append('g').attr('class', 'background')
   .attr('width', w)
@@ -23,6 +23,7 @@ var colors2 = ["#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"];
 var first = true;
 
 function pc(data) {
+	console.log('pc')
 	// d3.csv(fn, myfilter, function(data) { 
 	// 	var axis = d3.axisLeft();
 	// br_min = d3.min(data, function(p) { return p['bedrooms']; });
@@ -30,7 +31,8 @@ function pc(data) {
 
 	// Extract the list of dimensions and create a scale for each.
 	x2.domain(dimensions = d3.keys(data[0]).filter(function(d) {
-		if(d == 'v_age') {
+		if(d == 'month' || d == 'year' || d == 'state') return false;
+		else if(d == 'v_age' || d == 'p_age') {
 		  	y2[d] = d3.scaleLinear().domain([d3.min(data, function(p) { return p[d]; }),d3.max(data, function(p) { return p[d]; })])
 		  	.range([h, 0]); 
 					
@@ -94,7 +96,7 @@ function pc(data) {
 	  //             .attr("visibility", null);
 	  //       }));      	
 
- 	labels = dimensions;
+ 	labels = ['Victim Sex', 'Perpetrator Sex', 'Victim Age', 'Perpetrator Age', 'Victim Race', 'Perpetrator Race', 'Relationship', 'Weapon'];
  	if(first) {
  		for(var d=0; d < dimensions.length; d++) {
 	 		svg2.append('g').attr('class', "axis"+d)
@@ -178,24 +180,30 @@ function myfilter(d) {
 }
 
 function updatePC(selection) {	
-	d3.csv('data/pc.csv',
+	d3.csv('data/pc_data_sample.csv',
 	function(d) {
 		return {
 			month: d['Month'],
 			year: +d['Year'],
 			state: d['State'],
-		  c_type: d['Crime Type'],
-		  solved: d['Crime Solved'],
 		  v_sex: d['Victim Sex'],
-		  v_age: +d['Victim Age']
+		  p_sex: d['Perpetrator Sex'],
+		  v_age: +d['Victim Age'],
+		  p_age: +d['Perpetrator Age'],
+		  v_race: d['Victim Race'],
+		  p_race: d['Perpetrator Race'],
+		  rel: d['Relationship'],
+		  weap: d['Weapon']
 		};
 	},
-	function(error, data) {
-		data = data.filter(function(d) {
+	function(error, mydata) {
+		if(error) throw error;
+		mydata = mydata.filter(function(d) {
 			if(d.state == selection[0]) return true;
 			else return false;
 		})
-		pc(data);
+		pc(mydata);
 	}
 	);
 }
+// updatePC(['Alaska']);
