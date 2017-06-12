@@ -4,7 +4,7 @@
 <head>
   <title>Project 2</title>
   <style>
-  	.background path {
+/*  	.background path {
   fill: none;
   stroke: #ccc;
   stroke-opacity: .4;
@@ -13,10 +13,10 @@
 
 .foreground path {
   fill: none;
-  /*stroke: steelblue;*/
-  /*stroke-opacity: .7;*/
-  stroke-width: 5;
-}
+  /*stroke: steelblue;
+  stroke-opacity: .7;
+  stroke-width: 1;
+}*/
 
 .axis text {
   text-shadow: 0 1px 0 #fff;
@@ -40,5 +40,8 @@
 <body>
 	<h2>ECS 163 Final Project</h3>
 	<h3>Visualizing Homicide Reports in the U.S., 1980-2014</h2> 
-	<p style="margin-bottom: 50px;"><a href="https://www.kaggle.com/murderaccountability/homicide-reports">Data Source</a></p>
+  <p style="margin-bottom: 50px;"><a href="https://www.kaggle.com/murderaccountability/homicide-reports">Data Source</a></p>
+  <svg class = 'pc'></svg>
+  <script src="js/d3.min.js"></script>
+  <script src="js/pc.js"></script>
 </body>
