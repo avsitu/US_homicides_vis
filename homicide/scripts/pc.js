@@ -214,7 +214,7 @@ function updatePC() {
       		}
       		return false;
 		})
-		console.log(data.length);
+		console.log(mydata.length);
 		if(mydata.length < 1000){
 			pcsvg2.style('opacity', 1);	
 			pc(mydata);
