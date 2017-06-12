@@ -54,7 +54,7 @@ function monthSelect(e, data) {
         selectedMonths.push({month: data.month, year: data.year, key: data.month + " " + data.year});
     }
     setTimeFilter(selectedMonths);
-    updateChords();
+    //updateChords();
     //console.log(selectedMonths);
 }
 

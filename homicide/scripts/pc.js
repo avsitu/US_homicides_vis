@@ -23,8 +23,12 @@ var pccolors2 = ["#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"];
 var pcfirst = true;
 var dimensions;
 
+if(stateFilter.length == 1 && timeFilter.length == 1){
+	updatePC();
+}
+
 function pc(data) {
-	//console.log('pc')
+	
 	// d3.csv(fn, myfilter, function(data) { 
 	// 	var axis = d3.axisLeft();
 	// br_min = d3.min(data, function(p) { return p['bedrooms']; });
@@ -151,7 +155,7 @@ function pc(data) {
 	//       .attr("height", 30)
 	//       .style("fill", function(d, i) { return colors2[i]; });   
 	// legend2.append('g').append('text').text('Sales Price:').attr('x',-20).attr('transform','translate(-60,510)');
-       
+       //console.log('done pc');
 };	
 
 function position(d) {
@@ -180,7 +184,9 @@ function path(d) {
 	};
 }*/
 
-function updatePC(selection) {	
+function updatePC() {
+	//pcsvg2.selectAll("*").remove();
+	//if(stateFilter.length == 1 && timeFilter.length == 1){
 	d3.csv('data/pc_data_sample.csv',
 	function(d) {
 		return {
@@ -200,11 +206,24 @@ function updatePC(selection) {
 	function(error, mydata) {
 		if(error) throw error;
 		mydata = mydata.filter(function(d) {
-			if(d.state == selection[0]) return true;
-			else return false;
+			var time = monthKey.indexOf(d.month)+1 + " " + d.year;
+			if(stateFilter.length <= 0 || stateFilter.indexOf(d.state) != -1){
+      			if(timeFilter.length <= 0 || timeFilter.indexOf(time) != -1){
+      				return true;
+      			}
+      		}
+      		return false;
 		})
-		pc(mydata);
+		console.log(data.length);
+		if(mydata.length < 1000){
+			pcsvg2.style('opacity', 1);	
+			pc(mydata);
+		}else{
+		pcsvg2.style('opacity', 0);	
+		}
+		
 	}
 	);
+	//}
 }
 // updatePC(['Alaska']);

@@ -32,8 +32,8 @@ function stateSelect(e, d) {
     
     //console.log(selectedStates)
     stateFilter = [];
-    selectedStates.forEach(v => stateFilter.push(v))
-    updateChords()
+    selectedStates.forEach(v => stateFilter.push(v));
+    //updateChords()
 }
 
 
