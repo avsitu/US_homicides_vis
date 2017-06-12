@@ -2,6 +2,7 @@ var selectedMonths = [];
 var yearRange = [1980, 2014];
 
 function deselectAll() {
+    pcsvg2.style('opacity', 0); 
     monthDeselect(selectedStates.size <= 0); //only update if no states selected
     stateDeselect(true); //always update
 }
