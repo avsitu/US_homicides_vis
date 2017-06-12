@@ -1,6 +1,7 @@
 var selectedMonths = [];
 var yearRange = [1980, 2014];
 var disablebut = false;
+document.getElementById("deselectbutton").disabled = true;
 
 function updateAll() {
     //console.log(stateFilter);
@@ -21,7 +22,8 @@ function resetbuttons(){
     if(disablebut){
         var db = document.getElementById("deselectbutton");
         db.textContent = "Deselect";
-        db.disabled = false;
+        if(selectedMonths.length > 0 || selectedStates.size > 0)
+            db.disabled = false;
         var ub = document.getElementById("updatebutton");
         ub.textContent = "Update";
         ub.disabled = false;
