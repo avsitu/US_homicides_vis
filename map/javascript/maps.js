@@ -26,11 +26,8 @@ var svg = d3.select("body")
 			.attr("width", width)
 			.attr("height", height);
         
-// Append Div for tooltip to SVG
-var div = d3.select("#map")
-		    .append("div")   
-    		.attr("class", "tooltip")               
-    		.style("opacity", 0);
+// Select tooltip from DOM
+var tooltip = d3.select("#tooltip");
 
 // Load in my states data!
 d3.csv("data/homicide_states.csv", function(data) {
@@ -40,8 +37,8 @@ d3.csv("data/homicide_states.csv", function(data) {
 	}
 	var minVal = d3.min(dataArray)
 	var maxVal = d3.max(dataArray)
-	console.log(minVal)
-	console.log(maxVal)
+	//console.log(minVal)
+	//console.log(maxVal)
 	var ramp = d3.scalePow().exponent(0.15).domain([minVal,maxVal]).range([lowColor,highColor])
 
 // Load GeoJSON data and merge with states data
@@ -68,7 +65,7 @@ for (var i = 0; i < data.length; i++) {
 		}
 	}
 }
-	console.log("BEFORE LEGEND")
+	//console.log("BEFORE LEGEND")
 		// add a legend
 	var w = 140, h = 300;
 
@@ -114,7 +111,7 @@ for (var i = 0; i < data.length; i++) {
 			.attr("transform", "translate(41,10)")
 			.call(yAxis)
  // Bind the data to the SVG and create one path per GeoJSON feature
-console.log("BEFORE CLICK CODE")
+//console.log("BEFORE CLICK CODE")
 svg.selectAll("path")
 	.data(json.features)
 	.enter()
@@ -137,29 +134,33 @@ svg.selectAll("path")
 	      	svg.select("g#"+d.properties.id)
 	      		.attr("fill", "#FFFFFF")
 	      }
-	      console.log(selectedStates)
+	      //console.log(selectedStates)
 	      selectedStates.forEach(v => stateFilter.push(v))
 	      updateChords()
 	      d3.event.stopPropagation();
     })
 	.on("mouseover", function(d) {
-    	div.transition()        
+    	tooltip.transition()        
       	   .duration(200)      
            .style("opacity", .9)   
-        div.html(d.properties.name + "<br/>"  + d.properties.incidents)
-           .style("left", (d3.event.pageX) + "px")     
-           .style("top", (d3.event.pageY - 28) + "px");    
-	})   
+        tooltip.html(d.properties.name + "<br/>"  + d.properties.incidents + " incidents")
+           .style("left", (d3.event.pageX - 40) + "px")     
+           .style("top", (d3.event.pageY - 40) + "px");    
+	})
+    .on('mousemove', () => {
+        tooltip.style('left', (d3.event.pageX - 40)+'px')	
+          .style('top', (d3.event.pageY - 40)+'px');
+    })
 
     // fade out tooltip on mouse out               
     .on("mouseout", function(d) {       
-        div.transition()        
+        tooltip.transition()        
            .duration(500)      
            .style("opacity", 0);   
     });
 })
 });
-console.log("AFTER CLICK CODE")
+//console.log("AFTER CLICK CODE")
 	/*
 	.on("click", function(d){
 

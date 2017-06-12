@@ -85,3 +85,13 @@ rect.state.selected{
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
   cursor: move;
 }
+
+#tooltip {
+  background-color: rgba(190, 190, 190, 0.8);
+  border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  padding: 5px 10px;
+  text-align: center;
+}
