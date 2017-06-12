@@ -34,6 +34,7 @@ function stateSelect(e, d) {
     stateFilter = [];
     selectedStates.forEach(v => stateFilter.push(v))
     updateChords()
+    // updatePC(stateFilter)
 }
 
 

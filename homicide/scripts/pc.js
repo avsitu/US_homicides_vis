@@ -109,13 +109,6 @@ function pc(data) {
 				.append("svg:text")
 			  .attr("y", -9).attr('fill','black')
 		  	.text(labels[d]);
-	 		// }
-	 		// else { 			
-				// d3.select('.axis'+d).call(d3.axisRight(y2[dimensions[d]]))
-				// .append("svg:text")
-			 //  .attr("y", -9).attr('fill','black')
-		  // 	.text(labels[d]);
-	 		// }
  		}
 	 	pcfirst = false;
  	}
@@ -170,21 +163,13 @@ function path(d) {
   }));
 }	
 
-/*function myfilter(d) {
-	return {
-		bedrooms: +d.BedroomAbvGr,
-		lot_area: +d.LotArea,
-		quality: +d.OverallQual,
-		built: +d.YearBuilt,
-		price: +d.SalePrice
-	};
-}*/
-
+months_numeric = {'January': 1, 'February': 2, 'March' : 3, 'April': 4, 'May': 5, 'June': 6, 'July': 7, 'August': 8, 'September': 9, 'October': 10,
+	'November': 11, 'December': 12 }
 function updatePC(selection) {	
 	d3.csv('data/pc_data_sample.csv',
 	function(d) {
 		return {
-			month: d['Month'],
+			month: months_numeric[d['Month']],
 			year: +d['Year'],
 			state: d['State'],
 		  v_sex: d['Victim Sex'],
@@ -199,10 +184,13 @@ function updatePC(selection) {
 	},
 	function(error, mydata) {
 		if(error) throw error;
+		// console.log(selection)
+		pcsvg2.append('text').text('Incidents for Year ' + selection[0].year + ' Month ' + selection[0].month + ':').attr('y', -30);
 		mydata = mydata.filter(function(d) {
-			if(d.state == selection[0]) return true;
+			if(d.month == selection[0].month && d.year == selection[0].year && d.v_age < 100 ) return true;
 			else return false;
 		})
+		// console.log(mydata.length)
 		pc(mydata);
 	}
 	);

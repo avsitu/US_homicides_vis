@@ -55,6 +55,7 @@ function monthSelect(e, data) {
     }
     setTimeFilter(selectedMonths);
     updateChords();
+    updatePC(selectedMonths)
     //console.log(selectedMonths);
 }
 
