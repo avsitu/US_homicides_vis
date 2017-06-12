@@ -1,6 +1,13 @@
 var width = 960;
 var height = 500;
-console.log("HI")
+
+var selectedStates = new Set()
+
+function monthDeselect() {
+	d3.selectAll(".selected").attr("class", "state bordered");
+    selectedStates.clear();
+}
+
 // D3 Projection
 var projection = d3.geoAlbersUsa()
 				   .translate([width/2, height/2])    // translate to center of screen
@@ -10,8 +17,8 @@ var projection = d3.geoAlbersUsa()
 var path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
 		  	 .projection(projection);  // tell path generator to use albersUsa projection
 
-var lowColor = '#F0FFFF'
-var highColor = '#008080'
+var lowColor = '#ffe5e5'
+var highColor = '#7f0000'
 		
 //Create SVG element and append map to the SVG
 var svg = d3.select("body")
@@ -115,8 +122,42 @@ svg.selectAll("path")
 	.attr("d", path)
 	.style("stroke", "#fff")
 	.style("stroke-width", "1.5")
-	.style("fill", function(d) {return ramp(d.properties.incidents) });
+	.style("fill", function(d) {return ramp(d.properties.incidents) })
 
+	.on('click', (d) => {
+	      if(!d3.event.ctrlKey && !d3.event.shiftKey){
+	      		monthDeselect(); //deselect previous
+	      }
+	      if (selectedStates.has(d.properties.name)){
+	      	selectedStates.delete(d.properties.name)
+	      	// highlight it 
+	      }else{
+	      	selectedStates.add(d.properties.name)
+	      	// unhighlight it
+	      	svg.select("g#"+d.properties.id)
+	      		.attr("fill", "#FFFFFF")
+	      }
+	      console.log(selectedStates)
+	      d3.event.stopPropagation();
+    })
+	.on("mouseover", function(d) {
+    	div.transition()        
+      	   .duration(200)      
+           .style("opacity", .9)   
+        div.html(d.properties.name + "<br/>"  + d.properties.incidents)
+           .style("left", (d3.event.pageX) + "px")     
+           .style("top", (d3.event.pageY - 28) + "px");    
+	})   
+
+    // fade out tooltip on mouse out               
+    .on("mouseout", function(d) {       
+        div.transition()        
+           .duration(500)      
+           .style("opacity", 0);   
+    });
+})
+});
+console.log("AFTER CLICK CODE")
 	/*
 	.on("click", function(d){
 
@@ -237,7 +278,4 @@ svg.selectAll("path")
 	});
 	console.log("after CLICKed")
 */
-}
-)
-}
-);
+
