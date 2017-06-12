@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"> 
+<link rel="stylesheet" type="text/css" href="styles/map.css">
+<link rel="stylesheet" type="text/css" href="styles/calendar.css">
+<title>Homicides in the US</title>
+</head>
+
+<body onclick="deselectAll()">
+<div class="map"></div>
+<svg class="calendar"></svg>
+<div class="chorddiv"></div>
+<svg class ="pc"></svg>
+<div id="tooltip"></div>
+<footer>
+Source: <a href="https://www.kaggle.com/murderaccountability/homicide-reports">Kaggle Homicide Reports</a>
+</footer>
+
+<script src="scripts/d3.v4.min.js"></script>
+<script src="scripts/maps.js"></script>
+<script src="scripts/chord.js"></script>
+
+<script src="scripts/calendar.js"></script>
+</body>
+</html>
