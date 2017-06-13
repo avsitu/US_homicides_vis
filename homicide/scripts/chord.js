@@ -17,12 +17,24 @@ var timeFilter = [];
 //["1980 March"];
 
 
-var raceData = [];
-var ageData = [];
-var raceDataMax = 0;
-var ageDataMax = 0;
+var raceData = 
+[[3859,	1249,	34,	3040,	1708],
+[561,	179258,	191,	102885,	17004],  
+[32,	411,	2006,	960,	1158],  
+[62,	963,	21,	4436,	1194],  
+[1532,	32635,	1350,	84726,	197179]];
+var ageData = 
+[[36341,	29351,	9827,	3897,	1300,	610,	37854], 
+[27843,	65515,	24100,	8279,	3154,	1533,	77764],  
+[12361,	28971,	28584,	12008,	4051,	2003,	44495],  
+[7316,	13611,	12358,	12846,	5168,	2064,	23628],  
+[3815,	7432,	5847,	4870,	4558,	2221,	12517],  
+[4121,	6992,	5585,	4067,	2714,	5573,	12611], 
+[2879,	5478,	1930,	597,	221,	135,	7459]];
+var raceDataMax = 10000;
+var ageDataMax = 10000;
 
-resetData();
+//resetData();
 
 function resetData(){
   raceData = [];
@@ -48,8 +60,6 @@ function resetData(){
 
 
 
-
-
 var width2 = 900;
 var height2 = 500;
 var outerRadius = Math.min(width2, height2) * 0.5 - 40;
@@ -69,7 +79,10 @@ var color_race = d3.scaleOrdinal(["Blue", "Orange", "Green", "Red", "Purple"]);
 
 var color_age = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "Black"]);
 
-updateChords();
+//updateChords();
+createRaceChord();
+createAgeChord();
+resetbuttons();
 
 
 function updateChords(){
@@ -162,22 +175,21 @@ function updateChords(){
 }
 
 
-/*
 function printData(){
   console.log("Race Data");
   for(var i = 0; i < 5; i++){
-      console.log(raceData[i][0] + "\t"  + raceData[i][1] + "\t"  + raceData[i][2] + "\t"
-        + raceData[i][3] + "\t"  + raceData[i][4]);
+      console.log("[" +raceData[i][0] + ",\t"  + raceData[i][1] + ",\t"  + raceData[i][2] + ",\t"
+        + raceData[i][3] + ",\t"  + raceData[i][4]+ "],");
   }
 
   console.log("\nAge Data");
 
    for(var i = 0; i < 7; i++){
-      console.log(ageData[i][0] + "\t"  + ageData[i][1] + "\t"  + ageData[i][2] + "\t"+ ageData[i][3]
-       + "\t"  + ageData[i][4] + "\t" + ageData[i][5] + "\t" + ageData[i][6]);
+      console.log("[" + ageData[i][0] + ",\t"  + ageData[i][1] + ",\t"  + ageData[i][2] + ",\t"+ ageData[i][3]
+       + ",\t"  + ageData[i][4] + ",\t" + ageData[i][5] + ",\t" + ageData[i][6] + "],");
   }
 }
-*/
+
 
 function createRaceChord(){
     var chord = d3.chord()
