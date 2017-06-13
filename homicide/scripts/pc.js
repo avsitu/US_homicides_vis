@@ -1,5 +1,5 @@
-var pcm = [100, 40, 50, 300],
-  pcw = 1700 - pcm[1] - pcm[3],
+var pcm = [100, 40, 50, 40],
+  pcw = 1200 - pcm[1] - pcm[3],
   pch = 800 - pcm[0] - pcm[2];
 var pcline = d3.line();
 var pcdragging = {};
@@ -9,7 +9,7 @@ var pcy2 = {};
 var pcsvg2 = d3.select('.pc')
   .attr("width", pcw + pcm[1] + pcm[3])
   .attr("height", pch + pcm[0] + pcm[2]).append("g")
-  .attr("transform", "translate(" + 200 + "," + 50 + ")");
+  .attr("transform", "translate(" + 80 + "," + 50 + ")");
 
 var pcbackground = pcsvg2.append('g').attr('class', 'background')
   .attr('width', pcw)

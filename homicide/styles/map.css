@@ -15,6 +15,10 @@ path:hover {
 	fill-opacity: .7;
 }
 
+.pc {
+    align-self: center;
+}
+
 .background path {
   fill: none;
   stroke: #ddd;
