@@ -1,44 +1,7 @@
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+.calendar {
+    position: relative;
+    left: -60px;
 }
-
-main {
-    display: flex;
-    flex-direction: column;
-}
-
-h1, h2, h3, h4 {
-    text-align: center;
-}
-
-p {
-    text-align: justify;
-    text-justify: inter-word;
-    margin: 0px 10%;
-}
-
-#sidebar { 
-  width: 200px;
-  align-self: flex-end;
-  position: fixed;
-}
-
-button.sidebutton {
-    width: 200px;
-    padding: 10px;
-}
-
-footer {
-    text-align: center;
-}
-
-svg {
-    align-self: center;
-    margin-bottom: 50px;
-}
-
 
 rect.bordered {
     stroke: #E6E6E6;
@@ -72,6 +35,12 @@ text.mono {
   position: absolute;
   padding: 5px 10px;
   text-align: center;
+}
+
+div.chorddiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .group-tick line {

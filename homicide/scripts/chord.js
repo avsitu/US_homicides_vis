@@ -60,7 +60,7 @@ function resetData(){
 
 
 
-var width2 = 900;
+var width2 = 800;
 var height2 = 500;
 var outerRadius = Math.min(width2, height2) * 0.5 - 40;
 var innerRadius = outerRadius - 30;
@@ -288,7 +288,7 @@ function createRaceChord(){
       .selectAll("g")
       .data(Object.keys(raceKey)) 
       .enter().append("g")
-      .attr("transform", function(d, i) { return "translate(-450," + i * 20 + ")"; });
+      .attr("transform", function(d, i) { return "translate(-420," + (-220 + i * 20) + ")"; });
 
 
   legend2.append("rect")
@@ -410,7 +410,7 @@ function createAgeChord(){
       .selectAll("g")
       .data(Object.keys(ageKey)) 
       .enter().append("g")
-      .attr("transform", function(d, i) { return "translate(-450," + i * 20 + ")"; });
+      .attr("transform", function(d, i) { return "translate(-450," + (-220 + i * 20) + ")"; });
 
 
   legend2.append("rect")

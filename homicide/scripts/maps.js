@@ -1,4 +1,4 @@
-var mapwidth = 960;
+var mapwidth = 900;
 var mapheight = 500;
 
 var selectedStates = new Set()
@@ -39,7 +39,7 @@ function stateSelect(e, d) {
 
 // D3 Projection
 var projection = d3.geoAlbersUsa()
-				   .translate([mapwidth/2, mapheight/2])    // translate to center of screen
+				   //.translate([mapwidth/2, mapheight/2])    // translate to center of screen
 				   .scale([1000]);          // scale things down so see entire US
         
 // Define path generator

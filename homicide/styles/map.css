@@ -1,14 +1,14 @@
 /* Legend Position Style */
 .legend {
 	position:absolute;
-	left: 850px;
-	top: 150px;
+	left: 800px;
+	top: 180px;
     font-size: 14px;
 }
 
-#map {
-  float: left;
-  display:inline-block;
+.map {
+    position: relative;
+    left: -60px;
 }
 
 path:hover {
@@ -23,7 +23,7 @@ path:hover {
 
 .foreground path {
   fill: none;
-  stroke: steelblue;
+  stroke: #ff8080;
 }
 
 .brush .extent {

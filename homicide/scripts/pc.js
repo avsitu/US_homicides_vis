@@ -69,7 +69,7 @@ function pc(data) {
 	  update.exit().transition().duration(1000)
       .style("opacity", 0).remove();
 	  
-	  update.enter().append("path").merge(update).attr("class", "enter").attr('fill','none').attr('stroke-width',1).attr('stroke','steelblue')
+	  update.enter().append("path").merge(update).attr("class", "enter").attr('fill','none').attr('stroke-width',1).attr('stroke','#ff8080')
 		.attr("d", path).style('opacity',0)
 		.transition().duration(1000)
       	.style("opacity", 1);

@@ -99,9 +99,9 @@ function monthSelect(e, data) {
 }
 
 function makeCalendar() {
-const margin = { top: 50, right: 0, bottom: 100, left: 50 },
-      width = 960 - margin.left - margin.right,
-      height = 820 - margin.top - margin.bottom,
+const margin = { top: 50, right: 80, bottom: 100, left: 50 },
+      width = 900 - margin.left - margin.right,
+      height = 680 - margin.top - margin.bottom,
       gridSize = Math.floor(width / 24),
       legendElementWidth = gridSize * 1.5,
       buckets = 9,

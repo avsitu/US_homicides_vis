@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width"> 
+<link rel="stylesheet" type="text/css" href="styles/main.css">
 <link rel="stylesheet" type="text/css" href="styles/map.css">
 <link rel="stylesheet" type="text/css" href="styles/calendar.css">
 <title>Homicides in the US</title>
@@ -10,26 +11,34 @@
 
 <body>
 <header>
-			<h2 style=>Homicides in USA from 1980-2014</h2>
-			<h3>Click states and months to filter chord and parallel coordinates</h3>
-			<h4>Shift click states to select multiple states, shift click time to select a range</h4>
-			parallel coordinates only show if there are less than 1000 entries to display
+<h1>Homicides in the USA from 1980-2014</h1>
+<h3>Jonathan Gee, Trevor Morisawa, Jianfu Situ, Vincent Yeh</h3>
 </header>
 
-<br>
-<br>
+<div class="overview">
+<div class="overleft">
+<div class="map"></div>
+<h3>Click on states and months to filter the chord diagram and parallel coordinates below.</h3>
+<p>Ctrl-click or shift-click on states to select multiple states.</p>
+<p>Ctrl-click on months to select multiple months. Shift-click on months to select a range.</p>
+<p>Click on the Update button in the top-right to apply the selected filters.</p>
+<p>Click on the Deselect button in the top-right to clear any active filters.</p>
+<p>Parallel coordinates only show if there are less than 1000 entries to display.</p>
+</div>
+<svg class="calendar"></svg>
+</div>
+
+<h3>Chord diagrams show relationships between victims and perpetrators.<br>The values coming out from arcs represent the number of perpetrators in that catagory that have killed the victims in the connected catagory.<br>The first diagram shows relation by race, the second shows relation by age.</h3>
+
+<div class="chorddiv"></div>
+<svg class ="pc"></svg>
+<div id="tooltip"></div>
+
 <div id="sidebar">
 <button class="sidebutton" id="updatebutton" onclick="updateAll()">Update</button>
 <br>
 <button class="sidebutton" id="deselectbutton" onclick="deselectAll()">Deselect</button>
 </div>
-<div class="map"></div>
-<svg class="calendar"></svg>
-
-<h3>Chord diagrams show relationships between victims and perpetrators.<br>The values coming out from arcs represent the number of perpetrators in that catagory that have killed the victims in the connected catagory.<br>The first diagram shows relation by race, the second shows relation by age. </h3>
-<div class="chorddiv"></div>
-<svg class ="pc"></svg>
-<div id="tooltip"></div>
 
 <footer>
 Source: <a href="https://www.kaggle.com/murderaccountability/homicide-reports">Kaggle Homicide Reports</a>
