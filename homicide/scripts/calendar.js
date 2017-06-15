@@ -43,6 +43,7 @@ function deselectAll() {
         monthDeselect(selectedStates.size <= 0); //only update if no states selected
         stateDeselect(true); //always update
         d3.select('.pc').style('display', 'none');
+        d3.select('#pchide').style('display', 'block'); 
     }
 }
 

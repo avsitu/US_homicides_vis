@@ -19,10 +19,37 @@ h1, h2, h3, h4 {
     text-align: center;
 }
 
+div.chordheads {
+    display: flex;
+    flex-direction: row;
+}
+
+h3.chordtop {
+    padding: 0px 190px;
+}
+
+h3#agetop {
+    margin-left: 0px;
+    padding-left: 0px;
+    padding-right: 300px;
+}
+
+div.spacer {
+    flex-grow: 1;
+}
+
 p {
     text-align: justify;
     text-justify: inter-word;
     margin: 0px 10%;
+}
+
+p.centerp {
+    align-self: center;
+}
+
+img#pchide {
+    align-self: center;
 }
 
 #sidebar { 

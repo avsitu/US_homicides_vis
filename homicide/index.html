@@ -15,6 +15,7 @@
 <h3>Jonathan Gee, Trevor Morisawa, Jianfu Situ, Vincent Yeh</h3>
 </header>
 
+<h3>Homicide Incidents by State and Month</h3>
 <div class="overview">
 <div class="overleft">
 <div class="map"></div>
@@ -28,10 +29,21 @@
 <svg class="calendar"></svg>
 </div>
 
-<h3>Chord diagrams show relationships between victims and perpetrators.<br>The values coming out from arcs represent the number of perpetrators in that catagory that have killed the victims in the connected catagory.<br>The first diagram shows relation by race, the second shows relation by age.</h3>
+<h3>Victim-Perpetrator Relationships</h3>
+<p class="centerp">The values coming out from the arcs represent the number of perpetrators in that category that have killed the victims in the connected category.</p>
+
+<div class="chordheads">
+<h3 class="chordtop">Relationships by Race</h3>
+<div class="spacer"></div>
+<h3 class="chordtop" id="agetop">Relationships by Age</h3>
+</div>
 
 <div class="chorddiv"></div>
-<svg class ="pc"></svg>
+
+<h3 id="pctop">Homicide Details</h3>
+<p class="centerp">Each line represents a single incident in the current selection. Click and drag along each axis to highlight only lines crossing the selected region.</p>
+<img src="data/pchide.png" id="pchide">
+<svg class="pc"></svg>
 <div id="tooltip"></div>
 
 <div id="sidebar">

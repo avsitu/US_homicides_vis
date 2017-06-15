@@ -106,9 +106,9 @@ function updateChords(){
     }
     
     function closest(num){
-        var limits = [10, 50, 100, 500, 1000, 2500, 5000, 10000];
-        var curInterval = 10;
-        for(var i=1; i<8; i++){
+        var limits = [5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000];
+        var curInterval = 5;
+        for(var i=1; i<11; i++){
             if(Math.abs(num - limits[i]) < Math.abs(num - curInterval))
                 curInterval = limits[i];
             else
@@ -174,7 +174,7 @@ function updateChords(){
   }
 }
 
-
+/*
 function printData(){
   console.log("Race Data");
   for(var i = 0; i < 5; i++){
@@ -189,7 +189,7 @@ function printData(){
        + ",\t"  + ageData[i][4] + ",\t" + ageData[i][5] + ",\t" + ageData[i][6] + "],");
   }
 }
-
+*/
 
 function createRaceChord(){
     var chord = d3.chord()

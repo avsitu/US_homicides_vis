@@ -29,6 +29,7 @@ if(stateFilter.length == 1 && timeFilter.length == 1){
 }
 else{
     d3.select('.pc').style('display', 'none');
+    d3.select('#pchide').style('display', 'block'); 
 }
 
 function pc(data) {
@@ -182,10 +183,12 @@ function updatePC() {
 		})
 		//console.log(mydata.length);
 		if(mydata.length < 1000){
-			d3.select('.pc').style('display', 'block');	
+			d3.select('.pc').style('display', 'block');
+            d3.select('#pchide').style('display', 'none');
 			pc(mydata);
 		}else{
-      d3.select('.pc').style('display', 'none');	
+            d3.select('.pc').style('display', 'none');
+            d3.select('#pchide').style('display', 'block');            
 		}	
 	}
 	);
