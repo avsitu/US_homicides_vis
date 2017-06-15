@@ -1,27 +1,28 @@
-var pcm = [100, 40, 50, 40],
-  pcw = 1200 - pcm[1] - pcm[3],
-  pch = 800 - pcm[0] - pcm[2];
+var pc_margins = [100, 40, 50, 40],
+  pc_w = 1400 - pc_margins[1] - pc_margins[3],
+  pc_h = 600 - pc_margins[0] - pc_margins[2];
 var pcline = d3.line();
-var pcdragging = {};
-var pcx2 = d3.scaleBand().range([0, pcw]);
-var pcy2 = {};
+var pc_dragging = {};
+var pc_x = d3.scaleBand().range([0, pc_w]);
+var pc_y = {};
 
-var pcsvg2 = d3.select('.pc')
-  .attr("width", pcw + pcm[1] + pcm[3])
-  .attr("height", pch + pcm[0] + pcm[2]).append("g")
+var pc_svg = d3.select('.pc')
+  .attr("width", pc_w + pc_margins[1] + pc_margins[3])
+  .attr("height", pc_h + pc_margins[0] + pc_margins[2]).append("g")
   .attr("transform", "translate(" + 80 + "," + 50 + ")");
 
-var pcbackground = pcsvg2.append('g').attr('class', 'background')
-  .attr('width', pcw)
-  .attr('height', pch);
-var pcforeground = pcsvg2.append('g').attr('class', 'foreground')
-  .attr('width', pcw)
-  .attr('height', pch);;
-
+var pc_background = pc_svg.append('g').attr('class', 'background')
+  .attr('width', pc_w)
+  .attr('height', pc_h);
+var pc_foreground = pc_svg.append('g').attr('class', 'foreground')
+  .attr('width', pc_w)
+  .attr('height', pc_h);;
 var pclegend2 = d3.select('.pc').append('g').attr('class', 'legend2').attr('transform', 'translate(1050,-430)'); 
 var pccolors2 = ["#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"];
-var pcfirst = true;
+var pc_first = true;
 var dimensions;
+var axis_map = {'v_sex': 'Victim Sex', 'p_sex': 'Perpetrator Sex', 'v_age': 'Victim Age', 'p_age': 'Perpetrator Age',
+	 'v_race': 'Victim Race', 'p_race': 'Perpetrator Race', 'rel': 'V-P Relationship', 'weap': 'Weapon Used'}
 
 if(stateFilter.length == 1 && timeFilter.length == 1){
 	updatePC();
@@ -31,134 +32,93 @@ else{
 }
 
 function pc(data) {
-	
-	// d3.csv(fn, myfilter, function(data) { 
-	// 	var axis = d3.axisLeft();
-	// br_min = d3.min(data, function(p) { return p['bedrooms']; });
-	// 	br_max = d3.max(data, function(p) { return p['bedrooms']; });
-
 	// Extract the list of dimensions and create a scale for each.
-    dimensions = d3.keys(data[0]).filter(function(d) {
-		if(d == 'month' || d == 'year' || d == 'state') return false;
-		else if(d == 'v_age' || d == 'p_age') {
-		  	pcy2[d] = d3.scaleLinear().domain([d3.min(data, function(p) { return p[d]; }),d3.max(data, function(p) { return p[d]; })])
-		  	.range([pch, 0]); 
-					
-			return true;
-		}
-		else {
-		  	pcy2[d] = d3.scalePoint().domain(data.map(function(p) {
-	      		return p[d];
-	    	})).range([pch, 0]); 			
-		  	return true;
-		} 	
-    })
-	pcx2.domain(dimensions);
-	// price_color = d3.scaleQuantile()
-	// .domain([d3.min(data, function(d) { return d.price; }),d3.max(data, function(d) { return d.price; })])
-	// .range(colors2);
+  dimensions = d3.keys(data[0]).filter(function(d) {
+	if(d == 'month' || d == 'year' || d == 'state') return false;
+	else if(d == 'v_age' || d == 'p_age') {
+	  	pc_y[d] = d3.scaleLinear().domain([d3.min(data, function(p) { return p[d]; }),d3.max(data, function(p) { return p[d]; })])
+	  	.range([pc_h, 0]); 		
+		return true;
+	}
+	else {
+	  	pc_y[d] = d3.scalePoint().domain(data.map(function(p) {
+      		return p[d];
+    	})).range([pc_h, 0]); 			
+	  	return true;
+	} 	
+  })
+	pc_x.domain(dimensions);
 
-  	// background = background.selectAll("path")
-   //    .data(data)
-   //  .enter().append("path")
-   //    .attr("d", path).attr('stroke','#ddd').attr('fill','none');	
+	update_bg = pc_background.selectAll("path")
+    .data(data);
 
-	var update = pcforeground.selectAll("path")
+  update_bg.exit().transition().duration(1000)
+    .style("opacity", 0).remove();    
+
+  update_bg.enter().append("path").merge(update_bg)
+    .attr("d", path).attr('stroke','#ddd').attr('fill','none');	
+
+	var update = pc_foreground.selectAll("path")
 	  .data(data);	
 
-	  update.exit().transition().duration(1000)
-      .style("opacity", 0).remove();
+  update.exit().transition().duration(1000)
+    .style("opacity", 0).remove();
 	  
-	  update.enter().append("path").merge(update).attr("class", "enter").attr('fill','none').attr('stroke-width',1).attr('stroke','#ff8080')
-		.attr("d", path).style('opacity',0)
-		.transition().duration(1000)
-      	.style("opacity", 1);
+  fg = update.enter().append("path").merge(update).attr("class", "path").attr('fill','none').attr('stroke-width',1).attr('stroke','#ff8080')
+	.attr("d", path).style('opacity',1);//.transition().duration(1000).style("opacity", 1);
 
-	  // var g = svg2.selectAll(".dimension")
-	  //     .data(dimensions)
-	  //   .enter().append("g")
-	  //     .attr("class", "dimension")
-	  //     .attr("transform", function(d) { return "translate(" + x2(d) + ")"; })
-	  //     .call(d3.drag()
-	  //       .origin(function(d) { return {x: x2(d)}; })
-	  //       .on("dragstart", function(d) {
-	  //         dragging[d] = x2(d);
-	  //         background.attr("visibility", "hidden");
-	  //       })
-	  //       .on("drag", function(d) {
-	  //         dragging[d] = Math.min(width, Math.max(0, d3.event.x));
-	  //         foreground.attr("d", path);
-	  //         dimensions.sort(function(a, b) { return position(a) - position(b); });
-	  //         x.domain(dimensions);
-	  //         g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
-	  //       })
-	  //       .on("dragend", function(d) {
-	  //         delete dragging[d];
-	  //         transition(d3.select(this)).attr("transform", "translate(" + x(d) + ")");
-	  //         transition(foreground).attr("d", path);
-	  //         background
-	  //             .attr("d", path)
-	  //           .transition()
-	  //             .delay(500)
-	  //             .duration(0)
-	  //             .attr("visibility", null);
-	  //       }));      	
+	d3.selectAll('.brush').each(function(d) {d3.select(this).on('.brush', null);});
+	d3.selectAll('.dimension').each(function(d) {d3.select(this).remove();});
+		var drag_g = pc_svg.selectAll(".dimension")
+		      .data(dimensions)
+		    .enter().append("g")
+		      .attr("class", "dimension")
+		      .attr("transform", function(d) { return "translate(" + pc_x(d) + ")"; });
+		      // .call(d3.drag()
+		      //   .subject(function(d) { return {x: pc_x(d)}; })
+		      //   .on("start", function(d) {
+		      //     pc_dragging[d] = pc_x(d);
+		      //     fg.attr("visibility", "hidden");
+		      //   })
+		      //   .on("drag", function(d) {
+		      //     pc_dragging[d] = Math.min(pc_w, Math.max(0, d3.event.x));
+		      //     fg.attr("d", path);
+		      //     dimensions.sort(function(a, b) { return position(a) - position(b); });
+		      //     x.domain(dimensions);
+		      //     g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
+		      //   })
+		      //   .on("end", function(d) {
+		      //     delete pc_dragging[d];
+		      //     transition(d3.select(this)).attr("transform", "translate(" + pc_x(d) + ")");
+		      //     transition(fg).attr("d", path);
+		      //     pc_background
+		      //         .attr("d", path)
+		      //       .transition()
+		      //         .delay(500)
+		      //         .duration(0)
+		      //         .attr("visibility", null);
+		      //   }));      	
 
- 	var labels = ['Victim Sex', 'Perpetrator Sex', 'Victim Age', 'Perpetrator Age', 'Victim Race', 'Perpetrator Race', 'Relationship', 'Weapon'];
- 	if(pcfirst) {
- 		for(var d=0; d < dimensions.length; d++) {
-	 		pcsvg2.append('g').attr('class', "axis"+d)
-	 		.attr("transform", function() {
-    			return "translate(" + pcx2(dimensions[d]) + ")"; });
-	 		// if (labels[d] == 'Bedrooms') {
-	 			// console.log(br_min+' '+br_max);
-				d3.select('.axis'+d).call(d3.axisRight(pcy2[dimensions[d]]))
-				.append("svg:text")
-			  .attr("y", -9).attr('fill','black')
-		  	.text(labels[d]);
-	 		// }
-	 		// else { 			
-				// d3.select('.axis'+d).call(d3.axisRight(y2[dimensions[d]]))
-				// .append("svg:text")
-			 //  .attr("y", -9).attr('fill','black')
-		  // 	.text(labels[d]);
-	 		// }
- 		}
-	 	pcfirst = false;
- 	}
- 	else {
- 		for(var d=0; d < dimensions.length; d++) {
- 			d3.select('.axis'+d).transition().duration(1000).call(d3.axisRight(pcy2[dimensions[d]]));
- 		}
- 	}
+	  // Add an axis and title.
+	  drag_g.append("g")
+	      .attr("class", "axis")
+	      .each(function(d) { d3.select(this).call(d3.axisRight(pc_y[d])); })
+	    .append("text")
+	      .style("text-anchor", "middle")
+	      .attr("y", -9).attr('fill', 'black').attr('font-size', 15)
+	      .text(function(d) { return axis_map[d]; });		
 
- // 	update2 = legend2.selectAll("text")
- //        .data([0].concat(price_color.quantiles()), function(d) { return d; });
-	// update2.exit().remove();
- //  	update2.enter().append("text").merge(update2)
- //      .attr("x", function(d, i) { return 70 * i + 5; })
- //      .attr("y", h + 65)  
- //      .text(function(d) { 
- //      	val = Math.round(d).toString();
- //      	if(val.length>=6) val = val.slice(0,3)+'k';
- //      	else if(val.length==5) val = val.slice(0,2)+'k';
- //      	return " >= $" + val; });
- // 	update3 = legend2.selectAll("rect")
- //        .data([0].concat(price_color.quantiles()), function(d) { return d; });        
-	// update3.exit().remove();
-	// update3.enter().append("rect").merge(update3)
-	//       .attr("x", function(d, i) { return 70 * i; })
-	//       .attr("y", h + 20)
-	//       .attr("width", 70)
-	//       .attr("height", 30)
-	//       .style("fill", function(d, i) { return colors2[i]; });   
-	// legend2.append('g').append('text').text('Sales Price:').attr('x',-20).attr('transform','translate(-60,510)');
-       //console.log('done pc');
+		// Add and store a brush for each axis.
+	  drag_g.append("g")
+	      .attr("class", "brush")
+	      .each(function(d) {
+	        d3.select(this).call(d3.brushY().extent([[-10,-20],[10,pc_h+20]]).on("start", brushstart).on("brush", brush).on('end',brush));
+	      })
 };	
 
 function position(d) {
-  var v = pcdragging[d];
-  return v == null ? pcx2(d) : v;
+  var v = pc_dragging[d];
+  return v == null ? pc_x(d) : v;
 }
 
 function transition(g) {
@@ -168,23 +128,31 @@ function transition(g) {
 // Returns the path for a given data point.
 function path(d) {
   return pcline(dimensions.map(function(p) {
-    return [position(p), pcy2[p](d[p])];
+    return [position(p), pc_y[p](d[p])];
   }));
 }	
 
-/*function myfilter(d) {
-	return {
-		bedrooms: +d.BedroomAbvGr,
-		lot_area: +d.LotArea,
-		quality: +d.OverallQual,
-		built: +d.YearBuilt,
-		price: +d.SalePrice
-	};
-}*/
+function brushstart() {
+  d3.event.sourceEvent.stopPropagation();
+
+}
+
+// Handles a brush event, toggling the display of foreground lines.
+function brush() {
+  var extents = []
+  d3.selectAll('.brush').each(function(d) {extents.push(d3.brushSelection(d3.select(this)._groups[0][0]))})
+  var actives = dimensions.filter(function(p,i) { return extents[i] != null; });
+  extents = extents.filter(function(p) {return p != null});
+  fg.style("display", function(d) {
+    return actives.every(function(p, i) {
+      return extents[i][0] <= pc_y[p](d[p]) && pc_y[p](d[p]) <= extents[i][1];
+    }) ? null : "none";
+  });
+}
 
 function updatePC() {
-	//pcsvg2.selectAll("*").remove();
 	//if(stateFilter.length == 1 && timeFilter.length == 1){
+	//pc_svg.selectAll("*").remove();
 	d3.csv('data/pc_data_sample.csv',
 	function(d) {
 		return {
@@ -217,11 +185,16 @@ function updatePC() {
 			d3.select('.pc').style('display', 'block');	
 			pc(mydata);
 		}else{
-            d3.select('.pc').style('display', 'none');	
-		}
-		
+      d3.select('.pc').style('display', 'none');	
+		}	
 	}
 	);
 	//}
 }
-// updatePC(['Alaska']);
+
+// fn = 'pc_data_sample2.csv'
+// updatePC(fn)
+// d3.select('.button').on('click', function(d) {
+// 	fn = 'pc_data_sample.csv'	
+// 	updatePC(fn);
+// })
